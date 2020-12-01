@@ -1,5 +1,4 @@
 const express = require("express");
-const { required } = require("joi");
 const { postFlatData, getAllflats, flatDataId, getflatSearch, editFlate, deleteFlate } = require("../Controllers/flatDataControllers")
 const router = express.Router();
 

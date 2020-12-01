@@ -3,7 +3,9 @@ import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
+import { deleteflate, handleState } from '../Redux/FlatReducer/actions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
 export default function AdminPanel(props) {
   const { user } = useSelector((state) => state.app);
   console.log(user.admin.apartment);
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const isDelete = useSelector(state => state.flat.isDelete)
 
   const apartment = user.admin.apartment;
   const classes = useStyles();
@@ -45,6 +50,18 @@ export default function AdminPanel(props) {
     [apartment]
   );
 
+  const handleDelete = (id) => {
+    dispatch(deleteflate({ id }))
+  }
+
+  useEffect(() => {
+    if (isDelete) {
+      alert("Deleted Successfully")
+      dispatch(handleState())
+      history.push("/")
+    }
+  }, [isDelete, dispatch, history, data.flatNumber])
+
   return (
     <>
       <div className="row">
@@ -52,7 +69,11 @@ export default function AdminPanel(props) {
           <h4 className="text-dark"><h3>welcome</h3>{user.admin.name}</h4>
         </div>
         <div className="col">
-          <button type="button" class="btn btn-primary btn-lg">Add Data</button>
+          <Link to={`/flat`} className={classes.link}>
+            <Button variant="contained" color="dark">
+              Add More Data
+            </Button>
+          </Link>
         </div>
       </div>
       <div className="row d-flex flex-column">
@@ -63,15 +84,15 @@ export default function AdminPanel(props) {
               data.map((item) => (
                 <div key={item._id} className="border border-primary">
                   <div className="row d-flex mx-auto ">
-                    <h3 className="flex-1 ml-5">apartment:{data[0].apartment}</h3>
-                    <h3 className="flex-1 ml-5">flatNumber:{data[0].flatNumber}</h3>
-                    <h3 className="flex-1 ml-5">type:{data[0].type}</h3>
-                    <h3 className="flex-1 ml-5">No. of Residents:{data[0].residents.length}</h3>
+                    <h3 className="flex-1 ml-5">apartment:{item.apartment}</h3>
+                    <h3 className="flex-1 ml-5">flatNumber:{item.flatNumber}</h3>
+                    <h3 className="flex-1 ml-5">type:{item.type}</h3>
+                    <h3 className="flex-1 ml-5">No. of Residents:{item.residents.length}</h3>
                   </div>
                   <hr />
                   <h3>Residents Details</h3>
-                  {data.length > 0 ? (
-                    data[0].residents.map((a) => (
+                  {item.residents.length > 0 ? (
+                    item.residents.map((a) => (
                       <div>
                         <h5>name:{a.name}</h5>
                         <h5>gender:{a.gender}</h5>
@@ -81,10 +102,14 @@ export default function AdminPanel(props) {
                   ) : null}
                   <div className="row">
                     <div className="col">
-                      <button type="button" class="btn btn-primary btn-lg">Edit</button>
+                      <Link to={`/edit/${item._id}`} data={item} className={classes.link}>
+                        <Button variant="contained" color="dark">
+                          Edit
+                      </Button>
+                      </Link>
                     </div>
                     <div className="col">
-                      <button type="button" class="btn btn-primary btn-lg">Delete</button>
+                      <button className="btn btn-danger px-5" onClick={() => handleDelete(item._id)}>Delete</button>
                     </div>
                   </div>
                 </div>

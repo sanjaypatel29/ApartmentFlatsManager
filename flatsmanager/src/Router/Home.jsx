@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Home(props) {
     const [data, setdata] = useState([]);
     const [temp, setTemp] = useState([]);
+    const [search, setSearch] = useState("")
     const [params, setParams] = useState({ flatNumber: '', type: '', page: 1, perPage: 5 });
     const classes = useStyles();
     let totalPages = Math.ceil(temp.length / params.perPage);
@@ -54,20 +55,33 @@ export default function Home(props) {
                     `http://localhost:5000/flats/all?page=${params.page}&limit=${params.perPage}&flatNumber=${params.flatNumber}&type=${params.type}`
                 )
                 .then((res) => setdata(res.data.data));
-            axios
-                .get(
-                    `http://localhost:5000/flat/search`
-                )
-                .then((res) => setdata(res.data.data));
+
         },
         [params.page, params.perPage, params.flatNumber, params.type]
     );
+
+    const handleSearch = (search) => {
+        console.log(search)
+    }
+
     const handleChange = (e) => {
         setParams({ ...params, [e.target.name]: e.target.value });
     };
-    console.log(data, params);
+
     return (
         <Grid container className={classes.root} spacing={2} justify="center">
+            <Grid item container lg={12} justify="center">
+                <div className="mb-3">
+                    <div className="input-group">
+                        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} className="form-control" placeholder="Search" />
+                        <div className="input-group-prepend">
+                            <div className="input-group-text" onClick={() => handleSearch(search)}>
+                                <img src="https://www.flaticon.com/svg/static/icons/svg/1086/1086933.svg" width="20px" alt="search" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Grid>
             <Grid item container lg={12} className={classes.mainGrid}>
                 <Grid item container lg={3}></Grid>
                 <Grid item container lg={6}>

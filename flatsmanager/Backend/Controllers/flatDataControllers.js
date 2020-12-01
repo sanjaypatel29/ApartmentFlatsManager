@@ -1,8 +1,6 @@
 const { flatValidator } = require("../Validation/validation")
 const FlatData = require("../Models/flatData")
-const mongoose = require("mongoose");
 const flatData = require("../Models/flatData");
-
 
 const postFlatData = async (req, res) => {
     const { error } = flatValidator(req.body);
@@ -13,6 +11,7 @@ const postFlatData = async (req, res) => {
     const flat = new FlatData({
         flat_id: req.body.flat_id,
         apartment: req.body.apartment,
+        block: req.body.block,
         type: req.body.type,
         flatNumber: req.body.flatNumber,
         residents: req.body.residents
@@ -122,26 +121,16 @@ const flatDataId = (req, res) => {
         .catch((err) => res.status(400).json('Error' + err));
 };
 
-
-
 const getflatSearch = async (req, res) => {
     try {
-        const block = req.query.block.toLowerCase()
-        let search_params
-        if (req.query.flat_id != "")
-            search_params = { flat_id: mongoose.Types.ObjectId(req.query.flat_id) };
-
-        let flates
-        if (req.query.flat_id != "") {
-            flates = await FlatData.find(search_params)
-        }
-        else {
-            flates = await FlatData.find()
-        }
-
-        let result = flates.filter(item => item.block.toUpperCase().includes(block))
-
-        res.send({ flates: result, count: result.length })
+        await FlatData.find({
+            block: {
+                $regex: req.query.block,
+                $options: "i"
+            }
+        }, function (err, data) {
+            res.send(data)
+        })
     }
     catch (err) {
         res.status(400).send(err.message)
@@ -150,12 +139,15 @@ const getflatSearch = async (req, res) => {
 
 const editFlate = async (req, res) => {
     FlatData.findById(req.params.id)
-        .then(flat => {
-            flat.apartment = req.body.name
-            flat.type = req.body.type
-            flat.residents = req.body.residents
+        .then(item => {
+            item.flatNumber = req.body.flatNumber
+            item.flat_id = req.body.flat_id
+            item.apartment = req.body.apartment
+            item.type = req.body.type
+            item.block = req.body.block
+            item.residents = req.body.residents
 
-            flat.save()
+            item.save()
                 .then(() => res.json("Flat Data updated Successfully!"))
                 .catch(err => res.status(400).json(`Error : ${err}`))
         })
@@ -163,10 +155,9 @@ const editFlate = async (req, res) => {
 }
 
 const deleteFlate = async (req, res) => {
-    const id = req.params.id
-    flatData.findByIdAndDelete(id)
-        .then(() => res.json("flat Data deleted Successfully!"))
-        .catch(err => res.status(400).json(`Error : ${err}`))
+    FlatData.findByIdAndDelete(req.params.id)
+        .then(() => res.json("flat Deleted Successfully"))
+        .catch((err) => res.status(400).json("Error: " + err));
 }
 
 
