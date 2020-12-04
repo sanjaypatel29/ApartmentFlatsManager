@@ -27,7 +27,7 @@
 
 ### Manager Panel
 
-<img src="https://www.linkpicture.com/q/r1_4.png" alt="admin panel>
+<img src="https://www.linkpicture.com/q/r1_4.png" alt="admin panel">
 
 ### Functionalities Shown
 - [x] Login/Signup with your personal Details.
@@ -48,5 +48,3 @@
 <b style="color:red;">. FLat Apartment Manager is a website where Soceity people can see all detail Related to flat. Manager of soceity can manage all the things related to soceity like delete user data,add new flat data, edit flat detail etc.
 
 ##All contributions are welcome. Just fork it and make improvement
-
-
