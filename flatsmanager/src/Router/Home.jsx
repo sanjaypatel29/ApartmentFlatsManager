@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
 import { Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import "../App.css"
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -71,27 +72,23 @@ export default function Home(props) {
     return (
         <Grid container className={classes.root} spacing={2} justify="center">
             <Grid item container lg={12} justify="center">
-                <div className="mb-3">
-                    <div className="input-group">
-                        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} className="form-control" placeholder="Search" />
-                        <div className="input-group-prepend">
-                            <div className="input-group-text" onClick={() => handleSearch(search)}>
-                                <img src="https://www.flaticon.com/svg/static/icons/svg/1086/1086933.svg" width="20px" alt="search" />
-                            </div>
-                        </div>
+                <div className="row p-1 sticky-top bg-white" style={{ height: "60px", width: "30%" }}>
+                    <div className="border px-3 searchBox rounded-pill bg-light">
+                        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} className="input ml-5 mt-1 bg-light" placeholder="Search Block" />
                     </div>
+                    <i className="fa fa-search icon h4 text-muted" onClick={() => handleSearch(search)} aria-hidden="true"></i>
                 </div>
             </Grid>
             <Grid item container lg={12} className={classes.mainGrid}>
                 <Grid item container lg={3}></Grid>
                 <Grid item container lg={6}>
                     <Grid item container lg={6}>
-                        <Grid container item lg={4} sm={2} xs={2}>
+                        <Grid container item lg={5} sm={2} xs={2}>
                             <h4>Sort by flatNumber:</h4>
                         </Grid>
-                        <Grid container item lg={8} sm={5} xs={10}>
+                        <Grid container item lg={6} sm={5} xs={10}>
                             <FormControl variant="outlined" className={classes.formControl}>
-                                <InputLabel id="demo-simple-select-outlined-label">flatNumber</InputLabel>
+                                <InputLabel id="demo-simple-select-outlined-label" >flatNumber</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-outlined-label"
                                     name="flatNumber"

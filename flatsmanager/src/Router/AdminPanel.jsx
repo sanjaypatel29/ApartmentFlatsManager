@@ -66,7 +66,7 @@ export default function AdminPanel(props) {
     <>
       <div className="row">
         <div className="col">
-          <h4 className="text-dark"><h3>welcome</h3>{user.admin.name}</h4>
+          <h4 className="text-dark"><span className="text-primary">welcome</span> {user.admin.name}</h4>
         </div>
         <div className="col">
           <Link to={`/flat`} className={classes.link}>
@@ -76,31 +76,44 @@ export default function AdminPanel(props) {
           </Link>
         </div>
       </div>
+
       <div className="row d-flex flex-column">
-        <h1> apartment Detail</h1>
-        <div className="mx-auto justify-content-center">
+        <h1> apartment Details</h1>
+        <div className="mx-auto justify-content-center ">
           {
             data.length > 0 ? (
               data.map((item) => (
-                <div key={item._id} className="border border-primary">
-                  <div className="row d-flex mx-auto ">
-                    <h3 className="flex-1 ml-5">apartment:{item.apartment}</h3>
-                    <h3 className="flex-1 ml-5">flatNumber:{item.flatNumber}</h3>
-                    <h3 className="flex-1 ml-5">type:{item.type}</h3>
-                    <h3 className="flex-1 ml-5">No. of Residents:{item.residents.length}</h3>
+                <div key={item._id} style={{ border: "4px solid grey" }}>
+                  <div className="row d-flex mx-auto p-3  bg-primary ">
+                    <span className="flex-1 font-weight-bold ml-5">apartment:{item.apartment}</span>
+                    <span className="flex-1 font-weight-bold ml-5">flatNumber:{item.flatNumber}</span>
+                    <span className="flex-1 font-weight-bold ml-5">type:{item.type}</span>
+                    <span className="flex-1 font-weight-bold ml-5">No. of Residents:{item.residents.length}</span>
                   </div>
-                  <hr />
                   <h3>Residents Details</h3>
-                  {item.residents.length > 0 ? (
-                    item.residents.map((a) => (
-                      <div>
-                        <h5>name:{a.name}</h5>
-                        <h5>gender:{a.gender}</h5>
-                        <h5>age:{a.age}</h5>
-                      </div>
-                    ))
-                  ) : null}
-                  <div className="row">
+                  <table class="table">
+                    <thead className="bg-dark text-white">
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Age</th>
+                      </tr>
+                    </thead>
+                    {item.residents.length > 0 ? (
+                      item.residents.map((a) => (
+                        <tbody>
+                          <tr>
+                            <td>{a.name}</td>
+                            <td>{a.gender}</td>
+                            <td>{a.age}</td>
+                          </tr>
+                        </tbody>
+                      ))
+
+                    ) : null}
+                  </table>
+
+                  <div className="row mb-3">
                     <div className="col">
                       <Link to={`/edit/${item._id}`} data={item} className={classes.link}>
                         <Button variant="contained" color="dark">
@@ -116,14 +129,13 @@ export default function AdminPanel(props) {
               ))
             ) : null}
         </div>
-
-        <Link to={'/'} className={classes.link}>
-          <Button variant="contained" color="dark">
-            Go Back
-                </Button>
-        </Link>
-
       </div>
+      <hr />
+      <Link to={'/'} className={classes.link}>
+        <Button variant="contained" color="dark">
+          Go Back
+                </Button>
+      </Link>
     </>
   );
 }

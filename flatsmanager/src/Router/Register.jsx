@@ -46,7 +46,7 @@ class Register extends Component {
     console.log(regSuccess, regError);
     return (
       <>
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" style={{ backgroundImage: "url(https://wallpapercave.com/wp/wp2003545.jpg)", height: "500px", padding: "60px" }}>
           <CssBaseline />
           <div >
             <Avatar style={{ marginLeft: "45%", color: "white", background: "blue" }}>

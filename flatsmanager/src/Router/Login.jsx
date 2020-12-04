@@ -42,21 +42,21 @@ class Login extends Component {
 
 
     return (
-      <>
+      <div >
         {
           isAuth ? (
             <Redirect to={{ pathname: "/admin" }} />
           ) :
 
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="xs" style={{ backgroundImage: "url(https://wallpapercave.com/wp/wp2003545.jpg)", height: "500px", padding: "60px" }}>
               <CssBaseline />
-              <div>
+              <div >
                 <Avatar style={{ marginLeft: "45%", color: "white", background: "blue" }} >
                   <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                   Sign in
-        </Typography>
+                </Typography>
                 <form noValidate>
                   <TextField
                     variant="outlined"
@@ -96,12 +96,12 @@ class Login extends Component {
                     onClick={this.handleSubmit}
                   >
                     Sign In
-          </Button>
+                 </Button>
                   <Grid container>
                     <Grid item xs>
                       <Link href="#" variant="body2">
                         Forgot password?
-              </Link>
+                    </Link>
                     </Grid>
                     <Grid item>
                       <Link href="http://localhost:3000/Register" variant="body2">
@@ -117,7 +117,7 @@ class Login extends Component {
         }
         <div>{isLoading && "...LOADING"}</div>
         <div>{loginErr && loginErr}</div>
-      </>
+      </div>
     );
   }
 }

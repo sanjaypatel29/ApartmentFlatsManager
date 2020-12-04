@@ -7,7 +7,6 @@ import {
   IconButton,
   Typography,
   Drawer,
-  Avatar,
   Divider,
   List,
   ListItem,
@@ -21,6 +20,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from "../Redux/AuthReducer/action"
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: theme.spacing(5, 1),
+    padding: theme.spacing(1, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex-end"
@@ -96,10 +98,18 @@ function Navbar(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
+  const dispatch = useDispatch()
 
   const handleRouteChange = (to) => {
     history.push(to);
   };
+
+  const { isAuth } = useSelector((state) => state.app);
+
+  const handleLogout = () => {
+    alert("Do you Want to LogOut?")
+    dispatch(logout())
+  }
 
   return (
     <div className={classes.root}>
@@ -120,7 +130,9 @@ function Navbar(props) {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6">
-            <Link style={{ color: "white", textDecoration: "none" }} to="/dashboard">Apartment Flats Manager</Link>
+            <Link style={{ color: "white", textDecoration: "none" }} to="/dashboard"><i class="fa fa-home h3 m-1" aria-hidden="true"></i>
+Apartment Flats Manager<i class="fa fa-home h3 m-1" aria-hidden="true"></i>
+            </Link>
           </Typography>
           <IconButton color="inherit">
             <Typography
@@ -128,7 +140,14 @@ function Navbar(props) {
               variant="h6"
               color="inherit"
             >
-              <Link style={{ color: "white", textDecoration: "none" }} to="/Login">Login</Link>
+              {
+                !isAuth ? (
+                  <Link style={{ color: "white", textDecoration: "none" }} to="/Login">Login</Link>
+                ) : (
+                    <div className="text-danger font-weight-bolder bg-white" onClick={handleLogout}><i class="fa fa-sign-out" aria-hidden="true"></i>
+                    </div>
+                  )
+              }
             </Typography>
           </IconButton>
           <IconButton color="inherit">
@@ -137,7 +156,13 @@ function Navbar(props) {
               variant="h6"
               color="inherit"
             >
-              <Link style={{ color: "white", textDecoration: "none" }} to="/Register">Sign up</Link>
+              {
+                !isAuth ? (
+                  <Link style={{ color: "white", textDecoration: "none" }} to="/Register">Sign up</Link>
+                ) : (
+                    null
+                  )
+              }
             </Typography>
           </IconButton>
         </Toolbar>
@@ -152,11 +177,10 @@ function Navbar(props) {
         }}
       >
         <div className={classes.drawerHeader}>
-          <Typography variant="h6">Apartment Flats Manager</Typography>
-          <Typography variant="subtitle1"> Flates </Typography>
+          <Typography variant="subtitle1"> <i class="fa fa-home display-1 m-1 text-primary" aria-hidden="true"></i> </Typography>
         </div>
         <Divider />
-        <List>
+        <List >
           {[
             {
               text: "Dashboard",
