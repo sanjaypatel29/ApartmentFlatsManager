@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Admin = require('../models/admin');
+const Admin = require('../models/Admin');
 const { registerValidator, loginValidator } = require('../validation/validation');
 const registeradmin = async (req, res) => {
     try {

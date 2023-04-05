@@ -50,10 +50,10 @@ export default function Home(props) {
     const array = new Array(totalPages).fill(0);
     useEffect(
         () => {
-            axios.get('http://localhost:5000/flats/all').then((res) => setTemp(res.data.data));
+            axios.get('https://vip-herbals.herokuapp.com/flats/all').then((res) => setTemp(res.data.data));
             axios
                 .get(
-                    `http://localhost:5000/flats/all?page=${params.page}&limit=${params.perPage}&flatNumber=${params.flatNumber}&type=${params.type}`
+                    `https://vip-herbals.herokuapp.com/flats/all?page=${params.page}&limit=${params.perPage}&flatNumber=${params.flatNumber}&type=${params.type}`
                 )
                 .then((res) => setdata(res.data.data));
 
@@ -144,7 +144,7 @@ export default function Home(props) {
                                     <Link to={`dashboard/${item._id}`} className={classes.link}>
                                         <Button variant="contained" color="dark">
                                             More Details
-                                            </Button>
+                                        </Button>
                                     </Link>
                                 </Paper>
                             </Grid>
